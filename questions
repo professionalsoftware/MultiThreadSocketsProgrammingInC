@@ -1,0 +1,31 @@
+Questions
+
+1. Consider the thread created in start_listener. How many threads with this functionality should be running on the server at any given time?
+
+2. In the listener function, what do each of the following fields of the sockaddr_in struct represent: sin_family, sin_port, and sin_addr.s_addr?
+
+sin_family-> AF_INET  : AF_INET refers to the address family ipv4.
+sin_port-> "port number" param of client.c
+sin_addr.s_addr-> INADDR_ANY : server accepts all connection from any ip address
+
+3. What is the purpose of each of the following function calls in listener: socket, bind, listen, and accept? You should explain what each call does and what the effect would be if it were not called.
+
+socket: create a IP4 and TCP socket
+bind: the socket created is binded by the specified portno(provided with command argument when runnign client.c) and INADDR_ANY(which means accept sockets from any ip addresses).
+listen: starts accepting sockets from clients.
+accept: if a socket from client arrived, accept it(&client_addr will be set with ip and port no accepted).
+
+4. Which protocol (TCP or UDP) is used for communication? Why is this protocol used? (Hint: see line 35 in comm.c)
+
+Used SOCK_STREAM here. So it's TCP.
+
+5. Describe what comm_serve does. How are the response and command parameters used? What would happen if the stream pointed to by cxstr were closed?
+
+comm_serve runs on the thread - run_client() created for  every client.this function receives commands from client and output responses.
+If the stream pointed to by cxstr were closed, "client connection terminated" will be printed and the client thread will be terminated.
+
+6. Describe, in detail, what happens during each iteration of the while loop in the listener function. Be sure to include explanations of all significant function calls.
+
+- accept a connection from client and client_addr and client_len will be set with the client address info and the length of the structure - sockaddr_in
+- print the ip & port of client
+
